@@ -6,29 +6,236 @@
   <title>Random values</title>
   <script src="js/libs/jquery/jquery.min.js"></script>
   <script src="js/libs/histo/d3.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <script src="js/histogram.js"></script>
   <script src="js/scripts.js"></script>
   <div id="continuous-uniform-distribution">
-      <label>Непрерывное равномерное распределение</label>
-      <div class="inputs">
-        <table>
-            <tr>
-                <td><label>a</label></td>
-                <td><input id="cud-a-input" type="text" value="10"></td>
-            </tr>
-            <tr>
-                <td><label>b</label></td>
-                <td><input id="cud-b-input" type="text" value="40"></td>
-            </tr>
-            <tr>
-                <td><label>N</label></td>
-                <td><input id="cud-n-input" type="text" value="1000"></td>
-            </tr>
-          </table>
-          <button id="cud-calulate">Рассчитать</button>
+      <h1>Непрерывное равномерное распределение</h1>
+      <div class="distribution-parameters">
+            <div class="inputs">
+                <table>
+                    <tr>
+                        <td><label>a</label></td>
+                        <td><input id="cud-a-input" type="text" value="10"></td>
+                    </tr>
+                    <tr>
+                        <td><label>b</label></td>
+                        <td><input id="cud-b-input" type="text" value="40"></td>
+                    </tr>
+                    <tr>
+                        <td><label>N</label></td>
+                        <td><input id="cud-n-input" type="text" value="100000"></td>
+                    </tr>
+                </table>
+                <button id="cud-calulate">Рассчитать</button>
+            </div>
+            <div class="parameters">
+                <table>
+                    <tr>
+                        <td><label>Матожидание:</label></td>
+                        <td><label id="cud-m-value" class="value"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Дисперсия:</label></td>
+                        <td><label id="cud-d-value" class="value"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Среднеквадр. отклонение:</label></td>
+                        <td><label id="cud-g-value" class="value"></td>
+                    </tr>
+                </table>
+            </div>
       </div>
-      <svg id="cud-histo" width="960" height="500"></svg>
+      <div class="histo" id="cud-histo"></div>
   </div>
+  <div id="gaussian-distribution">
+        <h1>Гауссовское распределение</h1>
+        <div class="distribution-parameters">
+              <div class="inputs">
+                  <table>
+                      <tr>
+                          <td><label>m(x)</label></td>
+                          <td><input id="gad-m-input" type="text" value="1"></td>
+                      </tr>
+                      <tr>
+                          <td><label>σ(x)</label></td>
+                          <td><input id="gad-g-input" type="text" value="0.2"></td>
+                      </tr>
+                      <tr>
+                          <td><label>n</label></td>
+                          <td><input id="gad-n-input" type="text" value="1000"></td>
+                      </tr>
+                  </table>
+                  <button id="gad-calulate">Рассчитать</button>
+              </div>
+              <div class="parameters">
+                  <table>
+                      <tr>
+                          <td><label>Матожидание:</label></td>
+                          <td><label id="gad-m-value" class="value"></td>
+                      </tr>
+                      <tr>
+                          <td><label>Дисперсия:</label></td>
+                          <td><label id="gad-d-value" class="value"></td>
+                      </tr>
+                      <tr>
+                          <td><label>Среднеквадр. отклонение:</label></td>
+                          <td><label id="gad-g-value" class="value"></td>
+                      </tr>
+                  </table>
+              </div>
+        </div>
+        <div class="histo" id="gad-histo"></div>
+    </div>
+    <div id="exp-distribution">
+        <h1>Экспоненциальное распределение</h1>
+        <div class="distribution-parameters">
+                <div class="inputs">
+                    <table>
+                        <tr>
+                            <td><label>lambda</label></td>
+                            <td><input id="exp-l-input" type="text" value="0.5"></td>
+                        </tr>
+                        <tr>
+                            <td><label>n</label></td>
+                            <td><input id="exp-n-input" type="text" value="10000"></td>
+                        </tr>
+                    </table>
+                    <button id="exp-calulate">Рассчитать</button>
+                </div>
+                <div class="parameters">
+                    <table>
+                        <tr>
+                            <td><label>Матожидание:</label></td>
+                            <td><label id="exp-m-value" class="value"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Дисперсия:</label></td>
+                            <td><label id="exp-d-value" class="value"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Среднеквадр. отклонение:</label></td>
+                            <td><label id="exp-g-value" class="value"></td>
+                        </tr>
+                    </table>
+                </div>
+        </div>
+        <div class="histo" id="exp-histo"></div>
+    </div>
+    <div id="hamma-distribution">
+        <h1>Гамма-распределение</h1>
+        <div class="distribution-parameters">
+                <div class="inputs">
+                    <table>
+                        <tr>
+                            <td><label>lambda</label></td>
+                            <td><input id="hamma-l-input" type="text" value="1"></td>
+                        </tr>
+                        <tr>
+                            <td><label>n</label></td>
+                            <td><input id="hamma-n-input" type="text" value="2"></td>
+                        </tr>
+                    </table>
+                    <button id="hamma-calulate">Рассчитать</button>
+                </div>
+                <div class="parameters">
+                    <table>
+                        <tr>
+                            <td><label>Матожидание:</label></td>
+                            <td><label id="hamma-m-value" class="value"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Дисперсия:</label></td>
+                            <td><label id="hamma-d-value" class="value"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Среднеквадр. отклонение:</label></td>
+                            <td><label id="hamma-g-value" class="value"></td>
+                        </tr>
+                    </table>
+                </div>
+        </div>
+        <div class="histo" id="hamma-histo"></div>
+    </div>
+    <div id="triang-distribution">
+        <h1>Треугольное распределение</h1>
+        <div class="distribution-parameters">
+                <div class="inputs">
+                    <table>
+                        <tr>
+                            <td><label>a</label></td>
+                            <td><input id="triang-a-input" type="text" value="10"></td>
+                        </tr>
+                        <tr>
+                            <td><label>b</label></td>
+                            <td><input id="triang-b-input" type="text" value="20"></td>
+                        </tr>
+                        <tr>
+                            <td><label>n</label></td>
+                            <td><input id="triang-n-input" type="text" value="10000"></td>
+                        </tr>
+                    </table>
+                    <button id="triang-calulate">Рассчитать</button>
+                </div>
+                <div class="parameters">
+                    <table>
+                        <tr>
+                            <td><label>Матожидание:</label></td>
+                            <td><label id="triang-m-value" class="value"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Дисперсия:</label></td>
+                            <td><label id="triang-d-value" class="value"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Среднеквадр. отклонение:</label></td>
+                            <td><label id="triang-g-value" class="value"></td>
+                        </tr>
+                    </table>
+                </div>
+        </div>
+        <div class="histo" id="triang-histo"></div>
+    </div>
+    <div id="simps-distribution">
+            <h1>Распределение симпсона</h1>
+            <div class="distribution-parameters">
+                    <div class="inputs">
+                        <table>
+                            <tr>
+                                <td><label>a</label></td>
+                                <td><input id="simps-a-input" type="text" value="10"></td>
+                            </tr>
+                            <tr>
+                                <td><label>b</label></td>
+                                <td><input id="simps-b-input" type="text" value="20"></td>
+                            </tr>
+                            <tr>
+                                <td><label>n</label></td>
+                                <td><input id="simps-n-input" type="text" value="10000"></td>
+                            </tr>
+                        </table>
+                        <button id="simps-calulate">Рассчитать</button>
+                    </div>
+                    <div class="parameters">
+                        <table>
+                            <tr>
+                                <td><label>Матожидание:</label></td>
+                                <td><label id="simps-m-value" class="value"></td>
+                            </tr>
+                            <tr>
+                                <td><label>Дисперсия:</label></td>
+                                <td><label id="simps-d-value" class="value"></td>
+                            </tr>
+                            <tr>
+                                <td><label>Среднеквадр. отклонение:</label></td>
+                                <td><label id="simps-g-value" class="value"></td>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+            <div class="histo" id="simps-histo"></div>
+        </div>
 </body>
 </html>
