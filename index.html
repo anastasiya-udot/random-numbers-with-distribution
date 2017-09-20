@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Random values</title>
+  <script src="js/libs/jquery/jquery.min.js"></script>
+  <script src="js/libs/histo/d3.js"></script>
+</head>
+<body>
+  <script src="js/scripts.js"></script>
+  <div id="continuous-uniform-distribution">
+      <label>Непрерывное равномерное распределение</label>
+      <div class="inputs">
+        <table>
+            <tr>
+                <td><label>a</label></td>
+                <td><input id="cud-a-input" type="text" value="10"></td>
+            </tr>
+            <tr>
+                <td><label>b</label></td>
+                <td><input id="cud-b-input" type="text" value="40"></td>
+            </tr>
+            <tr>
+                <td><label>N</label></td>
+                <td><input id="cud-n-input" type="text" value="1000"></td>
+            </tr>
+          </table>
+          <button id="cud-calulate">Рассчитать</button>
+      </div>
+      <svg id="cud-histo" width="960" height="500"></svg>
+  </div>
+</body>
+</html>
