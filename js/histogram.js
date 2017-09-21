@@ -33,6 +33,4 @@ var histogram = function(elem, arr, scale){
         var rect = $('#' + elem).append('<div id="' + elem + 'rect' + (i + 1) + '" class="rect">' + h_arr[i] + '</div>');
         $('#' + elem + 'rect' + (i + 1)).height(map[i] * scale);
     }
-
-
   }

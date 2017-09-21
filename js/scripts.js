@@ -4,7 +4,7 @@ $(document).ready(function() {
         var a = 1664525;
         var m = 65536;
         var arr = [];
-        var Rn = 101;
+        var Rn = getRandomArbitary(100, 1000);
 
 
         for (var i = 0; i < n; i++) {
@@ -12,13 +12,29 @@ $(document).ready(function() {
             Rn = arr[i]; 
         }
         return arr;
-
     }
+
+    function getRandomArbitary(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    
 
     var sum_arr = function(arr) {
         return arr.reduce(function(a, b) {
             return a + b;
         });
+    }
+
+    var prod_arr = function(arr, number) {
+        var counter = 0;
+        var result = 1;
+
+        while (counter < number) {
+            result *= arr[counter];
+            counter += 1;
+        }
+
+        return result;
     }
 
     var uniformDistribution = function() {
@@ -64,9 +80,11 @@ $(document).ready(function() {
 
         function generateRandom(m, g, n) {
             var x_arr = [];
+            var rand_number;
 
             for (var i = 0; i < n; i++) {
-                x_arr.push(m + g * Math.sqrt(12 / n) * (sum_arr(getUniformRandomValues(n)) - n / 2))
+                var rand_number = getRandomArbitary(1000, 10000);
+                x_arr.push(m + g * Math.sqrt(12 / rand_number) * (sum_arr(getUniformRandomValues(rand_number)) - rand_number / 2))
             }
 
             histogram('gad-histo', x_arr, 20);
@@ -108,26 +126,31 @@ $(document).ready(function() {
         $('#hamma-calulate').click(function() {
             var n = $('#hamma-n-input').val();
             var l = $('#hamma-l-input').val();
+            var e = $('#hamma-e-input').val();
 
             try {
-                generateRandom(+l, +n)
+                if (+e > +n) {
+                    throw  new Error(); 
+                }
+                generateRandom(+l, +e, +n);
             } catch(err) {
                 alert('Неверные зачения');
             }
         });
 
-        function generateRandom(l, n) {
+        function generateRandom(l, e, n) {
             var x_arr = [];
 
-            getUniformRandomValues(n).forEach(function(R) {
-                x_arr.push( 0 - 1 / l * Math.log(R))
-            });
+            for (var i = 0; i < n; i++) {
+                var rand_number = getRandomArbitary(e, e * 100);
+                x_arr.push( 0 - 1 / l * Math.log(prod_arr(getUniformRandomValues(rand_number), e)));
+            }
 
             histogram('hamma-histo', x_arr, 10);
 
-            $('#hamma-m-value').text(n / l);
-            $('#hamma-d-value').text(n / Math.pow(l, 2));
-            $('#hamma-g-value').text(n / l);
+            $('#hamma-m-value').text(e / l);
+            $('#hamma-d-value').text(e / Math.pow(l, 2));
+            $('#hamma-g-value').text(e / l);
         }
     };
 
@@ -137,8 +160,11 @@ $(document).ready(function() {
             var b = $('#triang-b-input').val();
             var n = $('#triang-n-input').val();
 
-            generateRandom(+a, +b, +n)
-            
+            try {
+                generateRandom(+a, +b, +n);
+            } catch(err) {
+                alert('Неверные зачения');
+            }       
         });
 
         function generateRandom(a, b, n) {
@@ -164,16 +190,33 @@ $(document).ready(function() {
             var b = $('#simps-b-input').val();
             var n = $('#simps-n-input').val();
 
-            generateRandom(+a, +b, +n)
+            try {
+                generateRandom(+a, +b, +n);
+            } catch(err) {
+                alert('Неверные зачения');
+            }   
             
         });
 
         function generateRandom(a, b, n) {
             var x_arr = [];
-            var r_arr = getUniformRandomValues(n * 2);
 
             for (var i = 0; i < n; i++) {
-                x_arr.push(a + (b - a) * Math.max(r_arr.pop(), r_arr.pop()));
+                var r_arr_temp1 = getUniformRandomValues(1000, 10000);
+                var r_arr1 = [];
+
+                r_arr_temp1.forEach(function(R) {
+                    r_arr1.push(a / 2 + (b - a) / 2 * R);
+                });
+
+                var r_arr_temp2 = getUniformRandomValues(2000, 20000);
+                var r_arr2 = [];
+
+                r_arr_temp2.forEach(function(R) {
+                    r_arr2.push(a / 2 + (b - a) / 2 * R);
+                })
+
+                x_arr.push(r_arr1.pop() + r_arr2.pop());
             }
 
             histogram('simps-histo', x_arr, 20);
