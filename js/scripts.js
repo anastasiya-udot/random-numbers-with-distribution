@@ -1,42 +1,5 @@
 $(document).ready(function() {
 
-    var getUniformRandomValues = function(n) {
-        var a = 1664525;
-        var m = 65536;
-        var arr = [];
-        var Rn = getRandomArbitary(100, 1000);
-
-
-        for (var i = 0; i < n; i++) {
-            arr.push((a * Rn % m) / m);
-            Rn = arr[i]; 
-        }
-        return arr;
-    }
-
-    function getRandomArbitary(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-    
-
-    var sum_arr = function(arr) {
-        return arr.reduce(function(a, b) {
-            return a + b;
-        });
-    }
-
-    var prod_arr = function(arr, number) {
-        var counter = 0;
-        var result = 1;
-
-        while (counter < number) {
-            result *= arr[counter];
-            counter += 1;
-        }
-
-        return result;
-    }
-
     var uniformDistribution = function() {
 
         $('#cud-calulate').click(function() {
@@ -57,11 +20,16 @@ $(document).ready(function() {
             getUniformRandomValues(n).forEach(function(R) {
                 x_arr.push(a + (b - a) * R);
             });
+           
             histogram('cud-histo', x_arr, 20);
 
-            $('#cud-m-value').text((a + b) / 2);
-            $('#cud-d-value').text(Math.pow((b - a), 2) / 12);
-            $('#cud-g-value').text(Math.sqrt((Math.pow(b - a), 2) / 12));
+            var m = find_m(x_arr);
+            var d = find_d(x_arr, m);
+            var g = find_g(d);
+
+            $('#cud-m-value').text(m);
+            $('#cud-d-value').text(d);
+            $('#cud-g-value').text(g);
         }
     };
 
@@ -83,14 +51,18 @@ $(document).ready(function() {
             var rand_number;
 
             for (var i = 0; i < n; i++) {
-                var rand_number = getRandomArbitary(1000, 10000);
+                var rand_number = getRandomValue(1000, 10000);
                 x_arr.push(m + g * Math.sqrt(12 / rand_number) * (sum_arr(getUniformRandomValues(rand_number)) - rand_number / 2))
             }
 
             histogram('gad-histo', x_arr, 20);
 
+            var m = find_m(x_arr);
+            var d = find_d(x_arr, m);
+            var g = find_g(d);
+
             $('#gad-m-value').text(m);
-            $('#gad-d-value').text(Math.pow(g, 2));
+            $('#gad-d-value').text(d);
             $('#gad-g-value').text(g);
         }
     }
@@ -116,9 +88,14 @@ $(document).ready(function() {
 
             histogram('exp-histo', x_arr, 10);
 
-            $('#exp-m-value').text(1 / l);
-            $('#exp-d-value').text(1 / Math.pow(l, 2));
-            $('#exp-g-value').text(1 / l);
+
+            var m = find_m(x_arr);
+            var d = find_d(x_arr, m);
+            var g = find_g(d);
+
+            $('#exp-m-value').text(m);
+            $('#exp-d-value').text(d);
+            $('#exp-g-value').text(g);
         }
     };
 
@@ -142,15 +119,19 @@ $(document).ready(function() {
             var x_arr = [];
 
             for (var i = 0; i < n; i++) {
-                var rand_number = getRandomArbitary(e, e * 100);
+                var rand_number = getRandomValue(e, e * 100);
                 x_arr.push( 0 - 1 / l * Math.log(prod_arr(getUniformRandomValues(rand_number), e)));
             }
 
             histogram('hamma-histo', x_arr, 10);
 
-            $('#hamma-m-value').text(e / l);
-            $('#hamma-d-value').text(e / Math.pow(l, 2));
-            $('#hamma-g-value').text(e / l);
+            var m = find_m(x_arr);
+            var d = find_d(x_arr, m);
+            var g = find_g(d);
+
+            $('#hamma-m-value').text(m);
+            $('#hamma-d-value').text(d);
+            $('#hamma-g-value').text(g);
         }
     };
 
@@ -176,11 +157,15 @@ $(document).ready(function() {
             }
 
             histogram('triang-histo', x_arr, 20);
-            /*
-            $('#triang-m-value').text(n / l);
-            $('#triang-d-value').text(n / Math.pow(l, 2));
-            $('#triang-g-value').text(n / l);
-            */
+            
+            var m = find_m(x_arr);
+            var d = find_d(x_arr, m);
+            var g = find_g(d);
+
+            $('#triang-m-value').text(m);
+            $('#triang-d-value').text(d);
+            $('#triang-g-value').text(g);
+            
         }
     };
 
@@ -221,9 +206,13 @@ $(document).ready(function() {
 
             histogram('simps-histo', x_arr, 20);
 
-            $('#simps-m-value').text(2 * (Math.pow(a, 3) + Math.pow(b, 3) - (a + b) / 4) / 3 / Math.pow(b - a, 2));
-            $('#simps-d-value').text(Math.pow(b - a, 2) / 24);
-            $('#simps-g-value').text(Math.sqrt(Math.pow(b - a, 2) / 24));
+            var m = find_m(x_arr);
+            var d = find_d(x_arr, m);
+            var g = find_g(d);
+
+            $('#simps-m-value').text(m);
+            $('#simps-d-value').text(d);
+            $('#simps-g-value').text(g);
         }
     };
 
